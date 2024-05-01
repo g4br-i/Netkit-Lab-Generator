@@ -11,6 +11,7 @@ var backbone = {
 	row: 1,
 	type: "terminal",
 	routingSoftware: "frr",
+	bridged: false,
 	interfaces: {
 		counter: 1,
 		if: [{

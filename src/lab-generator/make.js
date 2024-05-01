@@ -35,6 +35,7 @@ function makeLabConfFile(netkit, lab) {
 	if (!lab.file["lab.conf"])
 		lab.file["lab.conf"] = "";
 	for (let machine of netkit) {
+		if(machine.bridged) lab.file["lab.conf"] += machine.name +"[bridged]="+`${machine.bridged}\n`;
 		for (let interface of machine.interfaces.if) {
 			if (interface.eth.number == 0 && (machine.type == "controller" || machine.type == "switch")) {
 				interface.eth.domain = "SDNRESERVED";
@@ -684,6 +685,14 @@ function makeScript(lab) {
 
 function makeZip(lab) {
 	let zip = new JSZip();
+	let date = new Date;
+
+	let day = date.getDate().toString().padStart(2, '0');         
+    let month = (date.getMonth() + 1).toString().padStart(2, '0');
+    let year = date.getFullYear().toString().slice(2);             
+    let hours = date.getHours().toString().padStart(2, '0');      
+    let minutes = date.getMinutes().toString().padStart(2, '0');  
+	let secs = date.getSeconds().toString().padStart(2, '0');
 
 	for (let folderName of lab.folders) {
 		zip.folder(folderName);
@@ -692,5 +701,5 @@ function makeZip(lab) {
 		zip.file(fileName, lab.file[fileName]);
 	}
 	let content = zip.generate({ type: "blob" });
-	saveAs(content, "lab.zip");
+	saveAs(content, `lab${day}${month}-${hours}${minutes}${secs}.zip`);
 }
