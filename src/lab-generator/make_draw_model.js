@@ -99,7 +99,7 @@ function generate_nodes_edges(lab) {
 
 	let ifNameAt = document.getElementById("ifNameAt");
 	let ifOspfCost = document.getElementById("ifOspfCost");
- 	let routingLabel = document.getElementById("routingLabel");
+	let routingLabel = document.getElementById("routingLabel");
 
 	let pendingDomainNodes = [];
 
@@ -168,6 +168,7 @@ function generate_nodes_edges(lab) {
 						});
 				}
 			}
+
 		}
 		//for each interface of the machine
 		for (let interface of machine.interfaces.if) {
@@ -178,11 +179,11 @@ function generate_nodes_edges(lab) {
 			let domain_id = "domain-" + domain_name;
 			let app_to = "iplabel-" + domain_name + "-domain_ip";
 			let domain_ip, if_ip;
-			if(interface.ip){
+			if (interface.ip) {
 				domain_ip = get_network_from_ip_net(interface.ip);
 				if_ip = get_eth_ip_difference(domain_ip, interface.ip);
 			}
-      
+
 			let ifCost = "";
 			if (machine.type == "router") {
 				if (machine.routing.ospf.en && ifOspfCost.checked) {
@@ -201,10 +202,10 @@ function generate_nodes_edges(lab) {
 					group: "domain",
 					value: 5
 				};
-				if(machine.type == "switch") pendingDomainNodes.push(domainNode);
+				if (machine.type == "switch") pendingDomainNodes.push(domainNode);
 				else nodes.push(domainNode);
 
-				if(interface.ip){
+				if (interface.ip) {
 					nodes.push({
 						id: "iplabel-" + domain_name + "-domain_ip",
 						label: domain_ip,
@@ -228,7 +229,7 @@ function generate_nodes_edges(lab) {
 				ifLabel += "\nCost: " + ifCost;
 			}
 
-      		nodes.push({
+			nodes.push({
 				id: "eth-" + id + "-" + if_name + "-" + m,
 				label: ifLabel,
 				group: "eth",
@@ -252,9 +253,26 @@ function generate_nodes_edges(lab) {
 				});
 			}
 		}
+
+		if (machine.bridged) {
+			//if the machine is bridged to external intenet we add a node to show it using a cloud icon 
+			nodes.push({
+				id: `${id}_www_bridge`,
+				group: `web-www`,
+				scaling:{min:10, max:80},
+				value: 70
+
+			})
+			edges.push({
+				from: id,
+				to: `${id}_www_bridge`,
+				length: LENGTH_SERVER, width: WIDTH_SCALE
+
+			})
+		}
 	}
 
-	pendingDomainNodes.forEach(domainNode => { if(!containsNodeWithID(domainNode.id, nodes)) nodes.push(domainNode);});
+	pendingDomainNodes.forEach(domainNode => { if (!containsNodeWithID(domainNode.id, nodes)) nodes.push(domainNode); });
 
 	return { nodes, edges };
 }
