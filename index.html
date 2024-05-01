@@ -249,7 +249,7 @@
 								
 								<div>
 									<input title="bridged" type="checkbox" value="0"
-										data-ng-model="machine.bridged" data-toggle="tooltip" title="Disabled tooltip"/>
+										data-ng-model="machine.bridged" />
 										<span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Allow internet access to router?"> bridged ?</span>
 										
 								</div>
@@ -519,6 +519,15 @@
 													value="{{i.eth.number}}">eth{{i.eth.number}}</option>
 											</select>
 										</div>
+
+										<div>
+											<label data-ng-show="machine.routingSoftware == 'quagga'">Directly in ospfd.conf, default-information policy:</label>
+											<!-- <label data-ng-show="machine.routingSoftware == 'frr'">Directly after ospf config in frr.conf:</label> -->
+											<textarea title="define default route redistribution policy (default-information command)" rows="2" class="form-control"
+												data-ng-model="machine.routing.ospf.defaultInformation" data-toggle="tooltip" placeholder="default-information originate always"></textarea>
+											<hr>
+										</div>
+
 										<div>
 										<label data-ng-show="machine.routingSoftware == 'quagga'">Directly in ospfd.conf:</label>
 										<label data-ng-show="machine.routingSoftware == 'frr'">Directly after ospf config in frr.conf:</label>

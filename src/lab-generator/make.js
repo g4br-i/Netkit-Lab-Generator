@@ -277,7 +277,12 @@ function makeRouterQuagga(machine, lab) {
 					+ "enable password zebra\n"
 					+ "\n"
 					+ "router ospf\n";
-
+				
+			
+				if (machine.routing.ospf.defaultInformation && machine.routing.ospf.defaultInformation != "")
+						lab.file[machine.name + "/etc/zebra/ospfd.conf"] += " " + machine.routing.ospf.defaultInformation + "\n";
+			
+				
 				for (let m /* non trasformare in un for... of */ in machine.routing.ospf.network) {
 					lab.file[machine.name + "/etc/zebra/ospfd.conf"] += "network " + machine.routing.ospf.network[m] + " area " + machine.routing.ospf.area[m] + "\n";
 					if (machine.routing.ospf.stub[m])
