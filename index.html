@@ -246,10 +246,12 @@
 									<input type="text" data-ng-model="machine.other.image" class="form-control" required
 										placeholder="e.g.: p4" required />
 								</div>
-
+								
 								<div>
 									<input title="bridged" type="checkbox" value="0"
-										data-ng-model="machine.bridged" /> bridged ?
+										data-ng-model="machine.bridged" data-toggle="tooltip" title="Disabled tooltip"/>
+										<span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Allow internet access to router?"> bridged ?</span>
+										
 								</div>
 							</td>
 
