@@ -8,6 +8,7 @@ html {
 	padding: 0;
 	margin: 0;
 	height: 100%;
+	/*overflow: auto;*/
 }
 
 body {
@@ -18,11 +19,14 @@ body {
     position: fixed;
     width: 100%;
 	padding-top: 45px;
+	overflow: hidden;
+	/*overflow: auto;*/
 }
 
 .ng-scope,
 .tab-content {
 	height: 100%;
+	overflow: auto;
 }
 
 .anchor-id {
